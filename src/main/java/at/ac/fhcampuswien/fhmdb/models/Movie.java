@@ -9,10 +9,10 @@ public class Movie {
     private List<Genres> genres;
     // TODO add more properties here
 
-    public Movie(String title, String description) {
+    /* public Movie(String title, String description) {
         this.title = title;
         this.description = description;
-    }
+    } */
 
     public Movie(String title, String description, List<Genres> genres) {
         this.title = title;
@@ -46,6 +46,8 @@ public class Movie {
         movies.add(pussInBoots);
         movies.add(avatar);
         movies.add(theWolfOfWallStreet);
+
+
         // TODO add some dummy data here
 
         return movies;

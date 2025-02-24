@@ -48,8 +48,6 @@ public class Movie {
         movies.add(theWolfOfWallStreet);
 
 
-        // TODO add some dummy data here
-
         return movies;
     }
 }

@@ -12,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -29,7 +30,7 @@ public class HomeController implements Initializable {
     public JFXComboBox genreComboBox;
 
     @FXML
-    public JFXButton sortBtn;
+    public  JFXButton sortBtn;
 
     public List<Movie> allMovies = Movie.initializeMovies();
 
@@ -52,14 +53,23 @@ public class HomeController implements Initializable {
         // Sort button example:
         sortBtn.setOnAction(actionEvent -> {
             if(sortBtn.getText().equals("Sort (asc)")) {
-                // TODO sort observableMovies ascending
+
+                sortMovies(observableMovies, true);
                 sortBtn.setText("Sort (desc)");
             } else {
-                // TODO sort observableMovies descending
+
+                sortMovies(observableMovies, false);
                 sortBtn.setText("Sort (asc)");
             }
         });
 
+    }
 
+    public void sortMovies (ObservableList<Movie> observableMovies, boolean asc) {
+        if (asc){
+            observableMovies.sort(Comparator.comparing(Movie::getTitle));
+        } else {
+            observableMovies.sort(Comparator.comparing(Movie::getTitle).reversed());
+        }
     }
 }

@@ -1,5 +1,6 @@
 package at.ac.fhcampuswien.fhmdb;
 
+import at.ac.fhcampuswien.fhmdb.models.Genres;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 import at.ac.fhcampuswien.fhmdb.ui.MovieCell;
 import com.jfoenix.controls.JFXButton;
@@ -12,9 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
-import java.util.Comparator;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class HomeController implements Initializable {
     @FXML
@@ -46,9 +45,22 @@ public class HomeController implements Initializable {
 
         // TODO add genre filter items with genreComboBox.getItems().addAll(...)
         genreComboBox.setPromptText("Filter by Genre");
+        genreComboBox.getItems().addAll(FXCollections.observableArrayList(Genres.values()));
 
         // TODO add event handlers to buttons and call the regarding methods
         // either set event handlers in the fxml file (onAction) or add them here
+
+        searchBtn.setOnAction(event -> {
+            System.out.println(allMovies.size());
+            List<Movie> filteredMovies = filterMovies(allMovies, (Genres) genreComboBox.getValue(), searchField.getText());
+
+            observableMovies.setAll(filteredMovies);
+
+            //Workaround
+            movieListView.setItems(observableMovies);
+            movieListView.setCellFactory(null);
+            movieListView.setCellFactory(movieListView -> new MovieCell());
+        });
 
         // Sort button example:
         sortBtn.setOnAction(actionEvent -> {
@@ -71,5 +83,12 @@ public class HomeController implements Initializable {
         } else {
             observableMovies.sort(Comparator.comparing(Movie::getTitle).reversed());
         }
+    }
+
+    public List<Movie> filterMovies (List<Movie> allMovies, Genres genre, String text) {
+        List<Movie> filteredMovies = new ArrayList<>();
+        filteredMovies.addAll(allMovies);
+        filteredMovies.removeIf(movie -> !(movie.getGenres().contains(genre)));
+        return filteredMovies;
     }
 }

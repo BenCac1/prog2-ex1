@@ -82,14 +82,7 @@ public class HomeController implements Initializable {
 
         resetFilterBtn.setOnAction(event -> {
 
-//            List<Movie> filteredMovies = filterMovies(allMovies, (Genres) genreComboBox.getValue(), searchField.getText());
-//
-//            observableMovies.setAll(filteredMovies);
-//
-//            //Workaround
-//            movieListView.setItems(observableMovies);
-//            movieListView.setCellFactory(null);
-//            movieListView.setCellFactory(movieListView -> new MovieCell());
+            observableMovies.setAll(allMovies);
         });
 
     }

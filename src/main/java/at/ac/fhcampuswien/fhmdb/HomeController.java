@@ -54,7 +54,7 @@ public class HomeController implements Initializable {
         // either set event handlers in the fxml file (onAction) or add them here
 
         searchBtn.setOnAction(event -> {
-            System.out.println(allMovies.size());
+            //System.out.println(allMovies.size());
             List<Movie> filteredMovies = filterMovies(allMovies, (Genres) genreComboBox.getValue(), searchField.getText());
 
             observableMovies.setAll(filteredMovies);
@@ -102,10 +102,16 @@ public class HomeController implements Initializable {
         }
     }
 
+
     public List<Movie> filterMovies (List<Movie> allMovies, Genres genre, String text) {
         List<Movie> filteredMovies = new ArrayList<>();
         filteredMovies.addAll(allMovies);
         filteredMovies.removeIf(movie -> !(movie.getGenres().contains(genre)));
+
+        if (!text.isEmpty()){
+            filteredMovies.removeIf(movie -> !(movie.getTitle().toLowerCase().contains(text.toLowerCase())
+                    || movie.getDescription().toLowerCase().contains(text.toLowerCase())));
+        }
         return filteredMovies;
     }
 }

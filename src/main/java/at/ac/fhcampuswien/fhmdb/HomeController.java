@@ -83,6 +83,7 @@ public class HomeController implements Initializable {
 
             observableMovies.setAll(allMovies);
             searchField.clear();
+            genreComboBox.setValue(null);
             genreComboBox.setPromptText("Filter by Genre");
         });
 

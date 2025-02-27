@@ -110,4 +110,20 @@ class HomeControllerTest {
         assertEquals("Life Is Beautiful", movies.get(3).getTitle());
         assertEquals("Avatar", movies.get(4).getTitle());
     }
+
+
+    @Test
+    void sortMovies_should_return_empty_list_when_list_is_empty() {
+        // Given
+        HomeController hc = new HomeController();
+        ObservableList<Movie> movies = FXCollections.observableArrayList();
+
+        // When
+        hc.sortMovies(movies, true); // Sorting in ascending order
+
+        // Then
+        assertTrue(movies.isEmpty(), "The list should be empty when there are no movies to sort.");
+    }
 }
+
+

@@ -108,4 +108,6 @@ public class HomeController implements Initializable {
         filteredMovies.removeIf(movie -> !(movie.getGenres().contains(genre)));
         return filteredMovies;
     }
+
+
 }

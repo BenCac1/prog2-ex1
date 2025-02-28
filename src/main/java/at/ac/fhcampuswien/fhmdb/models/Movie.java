@@ -7,12 +7,6 @@ public class Movie {
     private String title;
     private String description;
     private List<Genres> genres;
-    // TODO add more properties here
-
-    /* public Movie(String title, String description) {
-        this.title = title;
-        this.description = description;
-    } */
 
     public Movie(String title, String description, List<Genres> genres) {
         this.title = title;

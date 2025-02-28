@@ -46,26 +46,24 @@ public class HomeController implements Initializable {
         movieListView.setItems(observableMovies);   // set data of observable list to list view
         movieListView.setCellFactory(movieListView -> new MovieCell()); // use custom cell factory to display data
 
-        // TODO add genre filter items with genreComboBox.getItems().addAll(...)
+        // Add the genres to the dropdown
         genreComboBox.setPromptText("Filter by Genre");
         genreComboBox.getItems().addAll(FXCollections.observableArrayList(Genres.values()));
 
-        // TODO add event handlers to buttons and call the regarding methods
-        // either set event handlers in the fxml file (onAction) or add them here
 
+        // Action for when filter button is pressed
         searchBtn.setOnAction(event -> {
-            //System.out.println(allMovies.size());
             List<Movie> filteredMovies = filterMovies(allMovies, (Genres) genreComboBox.getValue(), searchField.getText());
-
             observableMovies.setAll(filteredMovies);
 
-            //Workaround
+            //Reset ListView
             movieListView.setItems(observableMovies);
             movieListView.setCellFactory(null);
             movieListView.setCellFactory(movieListView -> new MovieCell());
         });
 
-        // Sort button example:
+
+        // Action for when sort button is pressed
         sortBtn.setOnAction(actionEvent -> {
             if(sortBtn.getText().equals("Sort (asc)")) {
 
@@ -89,6 +87,7 @@ public class HomeController implements Initializable {
 
     }
 
+    // Logic for what happens when sort button is pressed
     public void sortMovies (ObservableList<Movie> observableMovies, boolean asc) {
         if (asc){
             observableMovies.sort(Comparator.comparing(Movie::getTitle));
@@ -98,12 +97,13 @@ public class HomeController implements Initializable {
     }
 
 
+    // Logic for what happens when filter button is pressed
     public List<Movie> filterMovies (List<Movie> allMovies, Genres genre, String text) {
 
         List<Movie> filteredMovies = new ArrayList<>();
         filteredMovies.addAll(allMovies);
 
-        if (text != null || text != "") {
+        if (text != null && !text.isEmpty()) {
             filteredMovies.removeIf(movie -> !(movie.getTitle().toLowerCase().contains(text.toLowerCase())
                     || movie.getDescription().toLowerCase().contains(text.toLowerCase())));
         }

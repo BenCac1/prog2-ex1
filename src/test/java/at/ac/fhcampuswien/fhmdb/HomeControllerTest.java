@@ -17,17 +17,11 @@ class HomeControllerTest {
         // Given
         HomeController hc = new HomeController();
 
-        ObservableList<Movie> movies = FXCollections.observableArrayList (
-              new Movie("Life Is Beautiful", "When an open-mided Jewish librarian and his son become victims of the Holocaust, he uses a perfect mixture of will, humor, and imagination to protect his son from the dangers around their camp", List.of(Genres.DRAMA, Genres.ROMANCE)),
-              new Movie("The Usual Suspects", "A sole survivor tells of the twisty events leading up to a horrific gun battle on a boat, which begin when five criminals meet at a seemingly random police lineup0", List.of(Genres.CRIME, Genres.DRAMA, Genres.MYSTERY)),
-              new Movie("Puss in Boots", "An outlaw cat, his childhood egg-friend, and a seductive thief kitty set out in search for the eggs of the fabled Golden Goose to clear his name, restore his lost honor, and regain the trust of his mother and town", List.of(Genres.COMEDY, Genres.FAMILY, Genres.ANIMATION)),
-              new Movie("Avatar", "A paraplegic Marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders and protecting the world he feels is his home.", List.of(Genres.ANIMATION, Genres.DRAMA, Genres.ACTION)),
-              new Movie ("The Wolf of Wall Street", "Based on the true story of Jordan Belfort, from his rise to a wealthy stock-broker living the high life to his fall involving crime, corruption and the federal government.", List.of(Genres.DRAMA, Genres.ROMANCE, Genres.BIOGRAPHY)));
-
+        List<Movie> movieList = Movie.initializeMovies();
+        ObservableList<Movie> movies = FXCollections.observableArrayList(movieList);
 
         // When
-
-         hc.sortMovies(movies, true);
+        hc.sortMovies(movies, true);
 
         // Then
         assertEquals("Avatar", movies.get(0).getTitle());
@@ -35,7 +29,6 @@ class HomeControllerTest {
         assertEquals("Puss in Boots", movies.get(2).getTitle());
         assertEquals("The Usual Suspects", movies.get(3).getTitle());
         assertEquals("The Wolf of Wall Street", movies.get(4).getTitle());
-
     }
 
     @Test
@@ -43,13 +36,8 @@ class HomeControllerTest {
         // Given
         HomeController hc = new HomeController();
 
-        ObservableList<Movie> movies = FXCollections.observableArrayList(
-                new Movie("Life Is Beautiful", "When an open-mided Jewish librarian and his son become victims of the Holocaust, he uses a perfect mixture of will, humor, and imagination to protect his son from the dangers around their camp", List.of(Genres.DRAMA, Genres.ROMANCE)),
-                new Movie("The Usual Suspects", "A sole survivor tells of the twisty events leading up to a horrific gun battle on a boat, which begin when five criminals meet at a seemingly random police lineup0", List.of(Genres.CRIME, Genres.DRAMA, Genres.MYSTERY)),
-                new Movie("Puss in Boots", "An outlaw cat, his childhood egg-friend, and a seductive thief kitty set out in search for the eggs of the fabled Golden Goose to clear his name, restore his lost honor, and regain the trust of his mother and town", List.of(Genres.COMEDY, Genres.FAMILY, Genres.ANIMATION)),
-                new Movie("Avatar", "A paraplegic Marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders and protecting the world he feels is his home.", List.of(Genres.ANIMATION, Genres.DRAMA, Genres.ACTION)),
-                new Movie ("The Wolf of Wall Street", "Based on the true story of Jordan Belfort, from his rise to a wealthy stock-broker living the high life to his fall involving crime, corruption and the federal government.", List.of(Genres.DRAMA, Genres.ROMANCE, Genres.BIOGRAPHY))
-        );
+        List<Movie> movieList = Movie.initializeMovies();
+        ObservableList<Movie> movies = FXCollections.observableArrayList(movieList);
 
         // When
         hc.sortMovies(movies, false);
@@ -67,13 +55,8 @@ class HomeControllerTest {
         // Given
         HomeController hc = new HomeController();
 
-        ObservableList<Movie> movies = FXCollections.observableArrayList(
-                new Movie("Avatar", "A paraplegic Marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders and protecting the world he feels is his home.", List.of(Genres.ANIMATION, Genres.DRAMA, Genres.ACTION)),
-                new Movie("Life Is Beautiful", "When an open-mided Jewish librarian and his son become victims of the Holocaust, he uses a perfect mixture of will, humor, and imagination to protect his son from the dangers around their camp", List.of(Genres.DRAMA, Genres.ROMANCE)),
-                new Movie("Puss in Boots", "An outlaw cat, his childhood egg-friend, and a seductive thief kitty set out in search for the eggs of the fabled Golden Goose to clear his name, restore his lost honor, and regain the trust of his mother and town", List.of(Genres.COMEDY, Genres.FAMILY, Genres.ANIMATION)),
-                new Movie("The Usual Suspects", "A sole survivor tells of the twisty events leading up to a horrific gun battle on a boat, which begin when five criminals meet at a seemingly random police lineup0", List.of(Genres.CRIME, Genres.DRAMA, Genres.MYSTERY)),
-                new Movie("The Wolf of Wall Street", "Based on the true story of Jordan Belfort, from his rise to a wealthy stock-broker living the high life to his fall involving crime, corruption and the federal government.", List.of(Genres.DRAMA, Genres.ROMANCE, Genres.BIOGRAPHY))
-        );
+        List<Movie> movieList = Movie.initializeMovies();
+        ObservableList<Movie> movies = FXCollections.observableArrayList(movieList);
 
         // When
         hc.sortMovies(movies, true);
@@ -92,13 +75,8 @@ class HomeControllerTest {
         // Given
         HomeController hc = new HomeController();
 
-        ObservableList<Movie> movies = FXCollections.observableArrayList(
-                new Movie("The Wolf of Wall Street", "Based on the true story of Jordan Belfort, from his rise to a wealthy stock-broker living the high life to his fall involving crime, corruption and the federal government.", List.of(Genres.DRAMA, Genres.ROMANCE, Genres.BIOGRAPHY)),
-                new Movie("The Usual Suspects", "A sole survivor tells of the twisty events leading up to a horrific gun battle on a boat, which begin when five criminals meet at a seemingly random police lineup0", List.of(Genres.CRIME, Genres.DRAMA, Genres.MYSTERY)),
-                new Movie("Puss in Boots", "An outlaw cat, his childhood egg-friend, and a seductive thief kitty set out in search for the eggs of the fabled Golden Goose to clear his name, restore his lost honor, and regain the trust of his mother and town", List.of(Genres.COMEDY, Genres.FAMILY, Genres.ANIMATION)),
-                new Movie("Life Is Beautiful", "When an open-mided Jewish librarian and his son become victims of the Holocaust, he uses a perfect mixture of will, humor, and imagination to protect his son from the dangers around their camp", List.of(Genres.DRAMA, Genres.ROMANCE)),
-                new Movie("Avatar", "A paraplegic Marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders and protecting the world he feels is his home.", List.of(Genres.ANIMATION, Genres.DRAMA, Genres.ACTION))
-        );
+        List<Movie> movieList = Movie.initializeMovies();
+        ObservableList<Movie> movies = FXCollections.observableArrayList(movieList);
 
         // When
         hc.sortMovies(movies, false);
@@ -109,5 +87,108 @@ class HomeControllerTest {
         assertEquals("Puss in Boots", movies.get(2).getTitle());
         assertEquals("Life Is Beautiful", movies.get(3).getTitle());
         assertEquals("Avatar", movies.get(4).getTitle());
+    }
+
+    @Test
+    void filterMovies_should_return_list_of_movies_based_on_the_genre_and_query() {
+        // Given
+        HomeController hc = new HomeController();
+
+        List<Movie> movieList = Movie.initializeMovies();
+        ObservableList<Movie> movies = FXCollections.observableArrayList(movieList);
+
+        // When
+        List<Movie> filteredMovies = hc.filterMovies(movies, Genres.DRAMA, "sole");
+
+        // Then
+        assertEquals("The Usual Suspects", filteredMovies.get(0).getTitle());
+        assertEquals(1, filteredMovies.size());
+    }
+
+    @Test
+    void filterMovies_should_return_list_of_movies_based_on_the_genre() {
+        // Given
+        HomeController hc = new HomeController();
+
+        List<Movie> movieList = Movie.initializeMovies();
+        ObservableList<Movie> movies = FXCollections.observableArrayList(movieList);
+
+        // When
+        List<Movie> filteredMovies = hc.filterMovies(movies, Genres.DRAMA, null);
+
+        // Then
+
+        assertEquals("Life Is Beautiful", filteredMovies.get(0).getTitle());
+        assertEquals("The Usual Suspects", filteredMovies.get(1).getTitle());
+        assertEquals("Avatar", filteredMovies.get(2).getTitle());
+        assertEquals("The Wolf of Wall Street", filteredMovies.get(3).getTitle());
+        assertEquals(4, filteredMovies.size());
+    }
+
+    @Test
+    void filterMovies_should_return_list_of_movies_based_on_the_query() {
+        // Given
+        HomeController hc = new HomeController();
+
+        List<Movie> movieList = Movie.initializeMovies();
+        ObservableList<Movie> movies = FXCollections.observableArrayList(movieList);
+
+        // When
+        List<Movie> filteredMovies = hc.filterMovies(movies, null, "when");
+
+        // Then
+        assertEquals("Life Is Beautiful", filteredMovies.get(0).getTitle());
+        assertEquals("The Usual Suspects", filteredMovies.get(1).getTitle());
+        assertEquals(2, filteredMovies.size());
+    }
+
+    @Test
+    void filterMovies_should_return_list_of_movies_without_filters() {
+        // Given
+        HomeController hc = new HomeController();
+
+        List<Movie> movieList = Movie.initializeMovies();
+        ObservableList<Movie> movies = FXCollections.observableArrayList(movieList);
+
+        // When
+        List<Movie> filteredMovies = hc.filterMovies(movies, null, null);
+
+        // Then
+        assertEquals("Life Is Beautiful", filteredMovies.get(0).getTitle());
+        assertEquals("The Usual Suspects", filteredMovies.get(1).getTitle());
+        assertEquals("Puss in Boots", filteredMovies.get(2).getTitle());
+        assertEquals("Avatar", filteredMovies.get(3).getTitle());
+        assertEquals("The Wolf of Wall Street", filteredMovies.get(4).getTitle());
+        assertEquals(5, filteredMovies.size());
+    }
+
+    @Test
+    void filterMovies_should_return_list_of_movies_without_regard_for_case_sensitivity() {
+        // Given
+        HomeController hc = new HomeController();
+
+        List<Movie> movieList = Movie.initializeMovies();
+        ObservableList<Movie> movies = FXCollections.observableArrayList(movieList);
+
+        // When
+        List<Movie> filteredMovies = hc.filterMovies(movies, null, "THE USUAL");
+
+        // Then
+        assertEquals("The Usual Suspects", filteredMovies.get(0).getTitle());
+        assertEquals(1, filteredMovies.size());
+    }
+
+    @Test
+    void filterMovies_should_return_empty_list_of_movies_when_given_an_empty_list() {
+        // Given
+        HomeController hc = new HomeController();
+
+        ObservableList<Movie> movies = FXCollections.observableArrayList();
+
+        // When
+        List<Movie> filteredMovies = hc.filterMovies(movies, null, "THE USUAL");
+
+        // Then
+        assertEquals(0, filteredMovies.size());
     }
 }

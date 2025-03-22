@@ -2,11 +2,22 @@ package at.ac.fhcampuswien.fhmdb.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Movie {
+    private String id;
     private String title;
-    private String description;
     private List<Genres> genres;
+    private int releaseYear;
+    private String description;
+    private String imgUrl;
+    private int lengthInMinutes;
+    private List<String> directors;
+    private List<String> writers;
+    private List<String> mainCast ;
+    private int rating;
+
+    public Movie() {}
 
     public Movie(String title, String description, List<Genres> genres) {
         this.title = title;
@@ -14,17 +25,23 @@ public class Movie {
         this.genres = genres;
     }
 
-    public String getTitle() {
-        return title;
+    public Movie(String id, String title, List<Genres> genres, int releaseYear, String description, String imgUrl, int lengthInMinutes, List<String> directors, List<String> writers, List<String> mainCast, int rating) {
+        this.id = id;
+        this.title = title;
+        this.genres = genres;
+        this.releaseYear = releaseYear;
+        this.description = description;
+        this.imgUrl = imgUrl;
+        this.lengthInMinutes = lengthInMinutes;
+        this.directors = directors;
+        this.writers = writers;
+        this.mainCast = mainCast;
+        this.rating = rating;
     }
 
-    public String getDescription() {
-        return description;
-    }
 
-    public List<Genres> getGenres() {
-        return genres;
-    }
+
+
 
     public static List<Movie> initializeMovies(){
         List<Movie> movies = new ArrayList<>();
@@ -35,6 +52,7 @@ public class Movie {
         Movie avatar = new Movie("Avatar", "A paraplegic Marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders and protecting the world he feels is his home.", List.of(Genres.ANIMATION, Genres.DRAMA, Genres.ACTION));
         Movie theWolfOfWallStreet = new Movie ("The Wolf of Wall Street", "Based on the true story of Jordan Belfort, from his rise to a wealthy stock-broker living the high life to his fall involving crime, corruption and the federal government.", List.of(Genres.DRAMA, Genres.ROMANCE, Genres.BIOGRAPHY));
 
+
         movies.add(lifeIsBeautiful);
         movies.add(theUsualSuspects);
         movies.add(pussInBoots);
@@ -43,5 +61,93 @@ public class Movie {
 
 
         return movies;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public List<Genres> getGenres() {
+        return genres;
+    }
+
+    public int getReleaseYear() {
+        return releaseYear;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public int getLengthInMinutes() {
+        return lengthInMinutes;
+    }
+
+    public List<String> getDirectors() {
+        return directors;
+    }
+
+    public List<String> getWriters() {
+        return writers;
+    }
+
+    public List<String> getMainCast() {
+        return mainCast;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setGenres(List<Genres> genres) {
+        this.genres = genres;
+    }
+
+    public void setReleaseYear(int releaseYear) {
+        this.releaseYear = releaseYear;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    public void setLengthInMinutes(int lengthInMinutes) {
+        this.lengthInMinutes = lengthInMinutes;
+    }
+
+    public void setDirectors(List<String> directors) {
+        this.directors = directors;
+    }
+
+    public void setWriters(List<String> writers) {
+        this.writers = writers;
+    }
+
+    public void setMainCast(List<String> mainCast) {
+        this.mainCast = mainCast;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
     }
 }

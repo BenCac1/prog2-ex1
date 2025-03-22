@@ -1,5 +1,6 @@
 package at.ac.fhcampuswien.fhmdb;
 
+import at.ac.fhcampuswien.fhmdb.api.MovieAPI;
 import at.ac.fhcampuswien.fhmdb.models.Genres;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 import at.ac.fhcampuswien.fhmdb.ui.MovieCell;
@@ -34,7 +35,7 @@ public class HomeController implements Initializable {
     @FXML
     public  JFXButton resetFilter;
 
-    public List<Movie> allMovies = Movie.initializeMovies();
+    public List<Movie> allMovies = MovieAPI.getAllMovies();
 
     private final ObservableList<Movie> observableMovies = FXCollections.observableArrayList();   // automatically updates corresponding UI elements when underlying data changes
 

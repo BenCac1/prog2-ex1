@@ -54,7 +54,7 @@ public class HomeController implements Initializable {
 
         // Action for when filter button is pressed
         searchBtn.setOnAction(event -> {
-            List<Movie> filteredMovies = filterMovies(allMovies, (Genres) genreComboBox.getValue(), searchField.getText());
+            List<Movie> filteredMovies = filterMovies((Genres) genreComboBox.getValue(), searchField.getText());
             observableMovies.setAll(filteredMovies);
 
             //Reset ListView
@@ -99,20 +99,8 @@ public class HomeController implements Initializable {
 
 
     // Logic for what happens when filter button is pressed
-    public List<Movie> filterMovies (List<Movie> allMovies, Genres genre, String text) {
-
-        List<Movie> filteredMovies = new ArrayList<>();
-        filteredMovies.addAll(allMovies);
-
-        if (text != null && !text.isEmpty()) {
-            filteredMovies.removeIf(movie -> !(movie.getTitle().toLowerCase().contains(text.toLowerCase())
-                    || movie.getDescription().toLowerCase().contains(text.toLowerCase())));
-        }
-        if (genre != null){
-            filteredMovies.removeIf(movie -> !(movie.getGenres().contains(genre)));
-        }
-
-        return filteredMovies;
+    public List<Movie> filterMovies (Genres genre, String text) {
+        return MovieAPI.getMovies(text, genre, null, null);
     }
 
 

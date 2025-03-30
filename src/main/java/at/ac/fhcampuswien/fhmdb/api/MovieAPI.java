@@ -20,7 +20,7 @@ public class MovieAPI {
         StringBuilder urlBuild = new StringBuilder(URL_STRING);
 
         if (query != null) {
-            urlBuild.append("?").append(query);
+            urlBuild.append("?query=").append(query);
         }
         if (genre != null) {
             urlBuild.append("&genre=").append(genre.name());

@@ -22,10 +22,10 @@ public class MovieAPI {
             urlBuild.append(query != null ? "&" : "?").append("genre=").append(genre.name());
         }
         if (releaseYear != null) {
-            urlBuild.append((query != null || genre != null) ? "&" : "?").append("release_year=").append(releaseYear);
+            urlBuild.append((query != null || genre != null) ? "&" : "?").append("releaseYear=").append(releaseYear);
         }
         if (ratingFrom != null) {
-            urlBuild.append((query != null || genre != null || releaseYear != null) ? "&" : "?").append("rating_from=").append(ratingFrom);
+            urlBuild.append((query != null || genre != null || releaseYear != null) ? "&" : "?").append("ratingFrom=").append(ratingFrom);
         }
 
         System.out.println("Constructed URL: " + urlBuild.toString()); // Temporary debug

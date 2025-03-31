@@ -30,10 +30,16 @@ public class HomeController implements Initializable {
     public JFXComboBox genreComboBox;
 
     @FXML
-    public  JFXButton sortBtn;
+    public JFXComboBox ratingComboBox;
 
     @FXML
-    public  JFXButton resetFilter;
+    public JFXComboBox releaseYearComboBox;
+
+    @FXML
+    public JFXButton sortBtn;
+
+    @FXML
+    public JFXButton resetFilter;
 
     public List<Movie> allMovies = MovieAPI.getAllMovies();
 
@@ -51,10 +57,26 @@ public class HomeController implements Initializable {
         genreComboBox.setPromptText("Filter by Genre");
         genreComboBox.getItems().addAll(FXCollections.observableArrayList(Genres.values()));
 
+        // Add rating options to the dropdown (0-10)
+        ratingComboBox.setPromptText("Filter by Rating");
+        ratingComboBox.getItems().addAll(FXCollections.observableArrayList("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"));
+
+        // Add release year options to the dropdown (e.g., 1900 to current year)
+        releaseYearComboBox.setPromptText("Filter by Release Year");
+        List<String> years = new ArrayList<>();
+        for (int year = 1900; year <= 2025; year++) {
+            years.add(String.valueOf(year));
+        }
+        releaseYearComboBox.getItems().addAll(FXCollections.observableArrayList(years));
 
         // Action for when filter button is pressed
         searchBtn.setOnAction(event -> {
-            List<Movie> filteredMovies = filterMovies((Genres) genreComboBox.getValue(), searchField.getText());
+            List<Movie> filteredMovies = filterMovies(
+                    (Genres) genreComboBox.getValue(),
+                    searchField.getText(),
+                    (String) releaseYearComboBox.getValue(),
+                    (String) ratingComboBox.getValue()
+            );
             observableMovies.setAll(filteredMovies);
 
             //Reset ListView
@@ -63,29 +85,28 @@ public class HomeController implements Initializable {
             movieListView.setCellFactory(movieListView -> new MovieCell());
         });
 
-
         // Action for when sort button is pressed
         sortBtn.setOnAction(actionEvent -> {
             if(sortBtn.getText().equals("Sort (asc)")) {
-
                 sortMovies(observableMovies, true);
                 sortBtn.setText("Sort (desc)");
             } else {
-
                 sortMovies(observableMovies, false);
                 sortBtn.setText("Sort (asc)");
             }
         });
 
-        //Implementaion of reset Filter Button
+        //Implementation of reset Filter Button
         resetFilter.setOnAction(event -> {
-
             observableMovies.setAll(allMovies);
             searchField.clear();
             genreComboBox.setValue(null);
             genreComboBox.setPromptText("Filter by Genre");
+            ratingComboBox.setValue(null);
+            ratingComboBox.setPromptText("Filter by Rating");
+            releaseYearComboBox.setValue(null);
+            releaseYearComboBox.setPromptText("Filter by Release Year");
         });
-
     }
 
     // Logic for what happens when sort button is pressed
@@ -97,11 +118,8 @@ public class HomeController implements Initializable {
         }
     }
 
-
     // Logic for what happens when filter button is pressed
-    public List<Movie> filterMovies (Genres genre, String text) {
-        return MovieAPI.getMovies(text, genre, null, null);
+    public List<Movie> filterMovies (Genres genre, String text, String releaseYear, String ratingFrom) {
+        return MovieAPI.getMovies(text, genre, releaseYear, ratingFrom);
     }
-
-
 }

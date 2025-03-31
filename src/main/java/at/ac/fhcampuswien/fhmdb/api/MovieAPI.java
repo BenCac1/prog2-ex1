@@ -3,17 +3,13 @@ package at.ac.fhcampuswien.fhmdb.api;
 import at.ac.fhcampuswien.fhmdb.models.Genres;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.ArrayType;
 import okhttp3.*;
-
-import java.net.URI;
 import java.net.URL;
 import java.util.Collections;
 import java.util.List;
 
 public class MovieAPI {
     private static final String URL_STRING = "http://prog2.fh-campuswien.ac.at/movies";
-
 
     public static URL buildURL(String query, Genres genre, String releaseYear, String ratingFrom) {
         URL url = null;
@@ -23,15 +19,16 @@ public class MovieAPI {
             urlBuild.append("?query=").append(query);
         }
         if (genre != null) {
-            urlBuild.append("&genre=").append(genre.name());
+            urlBuild.append(query != null ? "&" : "?").append("genre=").append(genre.name());
         }
         if (releaseYear != null) {
-            urlBuild.append("&release_year=").append(releaseYear);
+            urlBuild.append((query != null || genre != null) ? "&" : "?").append("release_year=").append(releaseYear);
         }
         if (ratingFrom != null) {
-            urlBuild.append("&rating_from=").append(ratingFrom);
+            urlBuild.append((query != null || genre != null || releaseYear != null) ? "&" : "?").append("rating_from=").append(ratingFrom);
         }
 
+        System.out.println("Constructed URL: " + urlBuild.toString()); // Temporary debug
 
         try {
             url = new URL(urlBuild.toString());
@@ -60,8 +57,7 @@ public class MovieAPI {
         try (Response response = call.execute()) {
             ResponseBody responseBody = response.body();    //saves the response (JSON file)
             return List.of(mapper.readValue(responseBody.byteStream(), Movie[].class));     //converts the String in responseBody into a Movie-Object with the help of ObjectMapper
-                                                                                            // Using .byteStram instead of .string to not overload responseBody in the case of big JSON files
-
+            // Using .byteStream instead of .string to not overload responseBody in the case of big JSON files
         } catch (Exception e) {
             e.printStackTrace();
         }

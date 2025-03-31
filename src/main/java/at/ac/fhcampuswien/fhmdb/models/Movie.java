@@ -25,6 +25,12 @@ public class Movie {
         this.genres = genres;
     }
 
+    public Movie(String title, List<String> directors, List<String> mainCast, int releaseYear) {
+        this.title = title;
+        this.mainCast = mainCast;
+        this.releaseYear = releaseYear;
+    }
+
     public Movie(String id, String title, List<Genres> genres, int releaseYear, String description, String imgUrl, int lengthInMinutes, List<String> directors, List<String> writers, List<String> mainCast, int rating) {
         this.id = id;
         this.title = title;

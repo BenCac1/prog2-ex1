@@ -197,13 +197,15 @@ class HomeControllerTest {
     @Test
     void returns_the_most_popular_acotr() {
         // Given
-        List<Movie> movies = new ArrayList<>();
+        Movie movie1 = new Movie("Inception",List.of("Christopher Nolan", "Ali", "RaZa"),  List.of("Leonardo DiCaprio", "Tom Hardy"), 2010);
+        Movie movie2 = new Movie("The Dark Knight", List.of("Christopher Nolan", "Hischam"), List.of("Christian Bale", "Heath Ledger"), 2008);
+        Movie movie3 = new Movie("Interstellar", List.of("Christopher Nolan", "Ben10") , List.of("Matthew McConaughey", "Anne Hathaway"), 2014);
+        Movie movie4 = new Movie("Titanic", List.of("James Cameron", "Yacine"),  List.of("Leonardo DiCaprio", "Kate Winslet"), 1997);
+
+        List<Movie> movies = new ArrayList<>(List.of(movie1, movie2, movie3, movie4));
         HomeController hc = new HomeController();
 
-        Movie movie1 = new Movie("Inception",List.of("Christopher Nolan"),  List.of("Leonardo DiCaprio", "Tom Hardy"), 2010);
-        Movie movie2 = new Movie("The Dark Knight", List.of("Christopher Nolan"), List.of("Christian Bale", "Heath Ledger"), 2008);
-        Movie movie3 = new Movie("Interstellar", List.of("Christopher Nolan") , List.of("Matthew McConaughey", "Anne Hathaway"), 2014);
-        Movie movie4 = new Movie("Titanic", List.of("James Cameron"),  List.of("Leonardo DiCaprio", "Kate Winslet"), 1997);
+
 
         //when + //then
         assertEquals("Leonardo DiCaprio", hc.getMostPopularActor(movies));
@@ -212,28 +214,28 @@ class HomeControllerTest {
     @Test
     void returns_the_longest_movie_title() {
         // Given
-        List<Movie> movies = new ArrayList<>();
+        Movie movie1 = new Movie("Inception",List.of("Christopher Nolan", "Ali", "RaZa"),  List.of("Leonardo DiCaprio", "Tom Hardy"), 2010);
+        Movie movie2 = new Movie("The Dark Knight", List.of("Christopher Nolan", "Hischam"), List.of("Christian Bale", "Heath Ledger"), 2008);
+        Movie movie3 = new Movie("Interstellar", List.of("Christopher Nolan", "Ben10") , List.of("Matthew McConaughey", "Anne Hathaway"), 2014);
+        Movie movie4 = new Movie("Titanic", List.of("James Cameron", "Yacine"),  List.of("Leonardo DiCaprio", "Kate Winslet"), 1997);
+
+        List<Movie> movies = new ArrayList<>(List.of(movie1, movie2, movie3, movie4));
         HomeController hc = new HomeController();
 
-        Movie movie1 = new Movie("Inception",List.of("Christopher Nolan"),  List.of("Leonardo DiCaprio", "Tom Hardy"), 2010);
-        Movie movie2 = new Movie("The Dark Knight", List.of("Christopher Nolan"), List.of("Christian Bale", "Heath Ledger"), 2008);
-        Movie movie3 = new Movie("Interstellar", List.of("Christopher Nolan") , List.of("Matthew McConaughey", "Anne Hathaway"), 2014);
-        Movie movie4 = new Movie("Titanic", List.of("James Cameron"),  List.of("Leonardo DiCaprio", "Kate Winslet"), 1997);
-
         //when + //then
-        assertEquals(12, hc.getLongestMovieTitle(movies));
+        assertEquals(15, hc.getLongestMovieTitle(movies));
     }
 
     @Test
     void should_count_movies_from_director() {
         // Given
-        List<Movie> movies = new ArrayList<>();
-        HomeController hc = new HomeController();
+        Movie movie1 = new Movie("Inception",List.of("Christopher Nolan", "Ali", "RaZa"),  List.of("Leonardo DiCaprio", "Tom Hardy"), 2010);
+        Movie movie2 = new Movie("The Dark Knight", List.of("Christopher Nolan", "Hischam"), List.of("Christian Bale", "Heath Ledger"), 2008);
+        Movie movie3 = new Movie("Interstellar", List.of("Christopher Nolan", "Ben10") , List.of("Matthew McConaughey", "Anne Hathaway"), 2014);
+        Movie movie4 = new Movie("Titanic", List.of("James Cameron", "Yacine"),  List.of("Leonardo DiCaprio", "Kate Winslet"), 1997);
 
-        Movie movie1 = new Movie("Inception", List.of("Christopher Nolan"), List.of("Leonardo DiCaprio", "Tom Hardy"), 2010);
-        Movie movie2 = new Movie("The Dark Knight", List.of("Christopher Nolan"), List.of("Christian Bale", "Heath Ledger"), 2008);
-        Movie movie3 = new Movie("Interstellar", List.of("Christopher Nolan"), List.of("Matthew McConaughey", "Anne Hathaway"), 2014);
-        Movie movie4 = new Movie("Titanic", List.of("James Cameron"), List.of("Leonardo DiCaprio", "Kate Winslet"), 1997);
+        List<Movie> movies = new ArrayList<>(List.of(movie1, movie2, movie3, movie4));
+        HomeController hc = new HomeController();
 
         //when + //then
         assertEquals(3, hc.countMoviesFrom(movies, "Christopher Nolan"));
@@ -243,13 +245,13 @@ class HomeControllerTest {
     @Test
     void returns_movies_between_2000_and_2020() {
         // Given
-        List<Movie> movies = new ArrayList<>();
-        HomeController hc = new HomeController();
+        Movie movie1 = new Movie("Inception",List.of("Christopher Nolan", "Ali", "RaZa"),  List.of("Leonardo DiCaprio", "Tom Hardy"), 2010);
+        Movie movie2 = new Movie("The Dark Knight", List.of("Christopher Nolan", "Hischam"), List.of("Christian Bale", "Heath Ledger"), 2008);
+        Movie movie3 = new Movie("Interstellar", List.of("Christopher Nolan", "Ben10") , List.of("Matthew McConaughey", "Anne Hathaway"), 2014);
+        Movie movie4 = new Movie("Titanic", List.of("James Cameron", "Yacine"),  List.of("Leonardo DiCaprio", "Kate Winslet"), 1997);
 
-        Movie movie1 = new Movie("Inception", List.of("Christopher Nolan"), List.of("Leonardo DiCaprio", "Tom Hardy"), 2010);
-        Movie movie2 = new Movie("The Dark Knight", List.of("Christopher Nolan"), List.of("Christian Bale", "Heath Ledger"), 2008);
-        Movie movie3 = new Movie("Interstellar", List.of("Christopher Nolan"), List.of("Matthew McConaughey", "Anne Hathaway"), 2014);
-        Movie movie4 = new Movie("Titanic", List.of("James Cameron"), List.of("Leonardo DiCaprio", "Kate Winslet"), 1997);
+        List<Movie> movies = new ArrayList<>(List.of(movie1, movie2, movie3, movie4));
+        HomeController hc = new HomeController();
 
         //when
         List<Movie> numOfMovies = hc.getMoviesBetweenYears(movies, 2000, 2020);

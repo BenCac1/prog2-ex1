@@ -27,6 +27,7 @@ public class Movie {
 
     public Movie(String title, List<String> directors, List<String> mainCast, int releaseYear) {
         this.title = title;
+        this.directors = directors;
         this.mainCast = mainCast;
         this.releaseYear = releaseYear;
     }

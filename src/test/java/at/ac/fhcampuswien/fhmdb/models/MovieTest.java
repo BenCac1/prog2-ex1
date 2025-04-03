@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MovieTest {
 
+
     @Test
     void initializeMovies_not_empty() {
 
@@ -64,4 +65,6 @@ class MovieTest {
 
         assertEquals(movieSet.size(),movie.size());
     }
+
+
 }

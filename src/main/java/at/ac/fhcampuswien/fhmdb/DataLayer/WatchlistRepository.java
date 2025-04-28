@@ -80,7 +80,7 @@ public class WatchlistRepository {
     public void addToWatchlist(Long movieID) throws SQLException{
 
 
-        String checkQuery = "SELECET COUNT(*) FROM WatchlistMovieEntity WHERE id = ?";
+        String checkQuery = "SELECT COUNT(*) FROM WatchlistMovieEntity WHERE id = ?";
 
         try (PreparedStatement checkStmt = connection.prepareStatement(checkQuery)) {
             checkStmt.setLong(1, movieID);

@@ -32,6 +32,8 @@ public class WatchlistRepository {
         return watchlists;
     }
 
+    //Methods for deleting the Watchlist itself
+    /*
     public void deleteWatchlists(List<Integer> ids) throws SQLException{
         if (ids == null || ids.isEmpty()) {
             throw new SQLException("Keine Filme zum Löschen übergeben");
@@ -76,6 +78,7 @@ public class WatchlistRepository {
             throw new SQLException("Fehler beim Löschen der Watchliste mit ID " + id, e);
         }
     }
+     */
 
     public void addToWatchlist(Long movieID) throws SQLException{
 
@@ -98,6 +101,20 @@ public class WatchlistRepository {
             insertStmt.setLong(1, movieID);
             insertStmt.executeUpdate();
             System.out.println("Film wurde zur Watchlist hinzugefügt.");
+        }
+    }
+
+    public void removeFromWatchlist(Long movieID) throws SQLException{
+        String checkQuery = "DELETE FROM WatchlistMovieEntity WHERE id = ?";
+
+        try (PreparedStatement checkStmt = connection.prepareStatement(checkQuery)) {
+            checkStmt.setLong(1, movieID);
+            checkStmt.executeUpdate();
+        }
+        String deleteQuery = "DELETE FROM WatchlistMovieEntity WHERE id = ?";
+        try (PreparedStatement deleteStmt = connection.prepareStatement(deleteQuery)) {
+            deleteStmt.setLong(1, movieID);
+            deleteStmt.executeUpdate();
         }
     }
 

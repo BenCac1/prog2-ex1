@@ -40,6 +40,19 @@ public class MovieRepository {
         return movies;
     }
 
+    public void removeAllMovies() throws SQLException {
+        String deleteQuery = "DELETE FROM MovieEntity";
+        try (PreparedStatement statement = connection.prepareStatement(deleteQuery)) {
+             int affectedRows = statement.executeUpdate();
+            System.out.println(affectedRows + "Filme wurden gelöscht");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Fehler beim löschen aller Filme", e);
+        }
+    }
+
+    //Methods to remove Movies using a list or single MovieID
+    /*
     public void deleteMovies(List<Long> ids) throws SQLException{
         if (ids == null || ids.isEmpty()) {
             throw new SQLException("Keine Filme zum Löschen übergeben");
@@ -84,6 +97,7 @@ public class MovieRepository {
             throw new SQLException("Fehler beim Löschen des Films mit ID " + id, e);
         }
     }
+     */
 
     Dao<MovieEntity, Long> dao;
 

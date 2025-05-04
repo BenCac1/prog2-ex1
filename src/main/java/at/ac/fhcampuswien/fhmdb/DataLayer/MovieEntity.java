@@ -6,7 +6,9 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @DatabaseTable(tableName = "MovieEntity")
 public class MovieEntity {
@@ -41,6 +43,20 @@ public class MovieEntity {
         this.lengthInMinutes = lengthInMinutes;
         this.rating = rating;
     }
+    public String genresToString(List<Genres> genres) {
+        StringBuilder genresString = new StringBuilder();
+        for (Genres genre : genres) {
+            genresString.append(genre.name()).append(",");
+        }
+        if (genresString.length() > 0) {
+            genresString.deleteCharAt(genresString.length() - 1);
+        }
+        return genresString.toString();
+    }
+
+    public List<String> convertGenresToList(String genresString) {
+        return Arrays.asList(genresString.split(","));
+    }
 
     public static List<MovieEntity> fromMovies(List<Movie> movies) {
         List<MovieEntity> movieEntities = new ArrayList<>();
@@ -59,15 +75,30 @@ public class MovieEntity {
         return movieEntities;
     }
 
-    public String genresToString(List<Genres> genres) {
-        StringBuilder genresString = new StringBuilder();
-        for (Genres genre : genres) {
-            genresString.append(genre.name()).append(",");
+    public static List<Movie> toMovies(List<MovieEntity> movieEntities) {
+        List<Movie> movies = new ArrayList<>();
+        for (MovieEntity movieEntity : movieEntities) {
+            List<Genres> genreList = Arrays.stream(movieEntity.getGenres().split(","))
+                    .map(String::trim)
+                    .map(String::toUpperCase)
+                    .map(Genres::valueOf)
+                    .collect(Collectors.toList());
+
+            movies.add(
+                    new Movie(
+                            movieEntity.getApiId(),
+                            movieEntity.getTitle(),
+                            genreList,
+                            movieEntity.getReleaseYear(),
+                            movieEntity.getDescription(),
+                            movieEntity.getImgUrl(),
+                            movieEntity.getLengthInMinutes(),
+                            null,
+                            null,
+                            null,
+                            movieEntity.getRating()));
         }
-        if (genresString.length() > 0) {
-            genresString.deleteCharAt(genresString.length() - 1);
-        }
-        return genresString.toString();
+        return movies;
     }
 
     public long getId() {

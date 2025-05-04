@@ -15,7 +15,7 @@ public class Movie {
     private List<String> directors;
     private List<String> writers;
     private List<String> mainCast ;
-    private int rating;
+    private double rating;
 
     public Movie() {}
 
@@ -32,7 +32,7 @@ public class Movie {
         this.releaseYear = releaseYear;
     }
 
-    public Movie(String id, String title, List<Genres> genres, int releaseYear, String description, String imgUrl, int lengthInMinutes, List<String> directors, List<String> writers, List<String> mainCast, int rating) {
+    public Movie(String id, String title, List<Genres> genres, int releaseYear, String description, String imgUrl, int lengthInMinutes, List<String> directors, List<String> writers, List<String> mainCast, double rating) {
         this.id = id;
         this.title = title;
         this.genres = genres;
@@ -110,7 +110,7 @@ public class Movie {
         return mainCast;
     }
 
-    public int getRating() {
+    public double getRating() {
         return rating;
     }
 
@@ -154,7 +154,7 @@ public class Movie {
         this.mainCast = mainCast;
     }
 
-    public void setRating(int rating) {
+    public void setRating(double rating) {
         this.rating = rating;
     }
 }

@@ -5,16 +5,19 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable (tableName = "WatchlistMovieEntity")
 public class WatchlistMovieEntity {
-    @DatabaseField(id = true)
-    private int id;
-    @DatabaseField
+    @DatabaseField(generatedId = true)
+    private long id;
+    @DatabaseField(canBeNull = false)
     private String apiId;
 
-    public int getId() {
-        return id;
+    public WatchlistMovieEntity() {}
+
+    public WatchlistMovieEntity(String apiId) {
+        this.apiId = apiId;
     }
-    public void setId(int id) {
-        this.id = id;
+
+    public long getId() {
+        return id;
     }
 
     public String getApiId() {

@@ -8,11 +8,11 @@ import java.util.List;
 
 @DatabaseTable(tableName = "MovieEntity")
 public class MovieEntity {
-    @DatabaseField(id = true)
+    @DatabaseField(generatedId = true)
     private long id;
-    @DatabaseField
+    @DatabaseField(canBeNull = false)
     private String apiId;
-    @DatabaseField
+    @DatabaseField(canBeNull = false)
     private String title;
     @DatabaseField
     private String description;
@@ -27,11 +27,23 @@ public class MovieEntity {
     @DatabaseField
     private double rating;
 
-    public String genresToString(List<Genres> genres) {
+    public MovieEntity() {}
 
+    public MovieEntity(String apiId, String title, String description, String genres, int releaseYear, String imgUrl, int lengthInMinutes, double rating) {
+        this.apiId = apiId;
+        this.title = title;
+        this.description = description;
+        this.genres = genres;
+        this.releaseYear = releaseYear;
+        this.imgUrl = imgUrl;
+        this.lengthInMinutes = lengthInMinutes;
+        this.rating = rating;
+    }
+
+    public String genresToString(List<Genres> genres) {
         StringBuilder genresString = new StringBuilder();
         for (Genres genre : genres) {
-            genresString.append(genre.toString()).append(",");
+            genresString.append(genre.name()).append(",");
         }
         if (genresString.length() > 0) {
             genresString.deleteCharAt(genresString.length() - 1);
@@ -41,9 +53,6 @@ public class MovieEntity {
 
     public long getId() {
         return id;
-    }
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getApiId() {

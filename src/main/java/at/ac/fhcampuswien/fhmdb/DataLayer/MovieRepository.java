@@ -7,44 +7,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MovieRepository {
+    private static Dao<MovieEntity, Long> dao;
     private static Connection connection;
 
-    public MovieRepository(Connection connection) {
+    public MovieRepository(Dao<MovieEntity, Long> dao, Connection connection) {
+        this.dao = dao;
         this.connection = connection;
     }
 
     public static List<MovieEntity> getAllMovies() throws SQLException {
         List<MovieEntity> movies = new ArrayList<>();
 
-        try (Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT * FROM MovieEntity")) {
-            while (resultSet.next()) {
-                MovieEntity movie = new MovieEntity();
-
-                movie.setId(resultSet.getInt("id"));
-                movie.setApiId(resultSet.getString("apiId"));
-                movie.setTitle(resultSet.getString("title"));
-                movie.setDescription(resultSet.getString("description"));
-                movie.setGenres(resultSet.getString("genres"));
-                movie.setReleaseYear(resultSet.getInt("releaseYear"));
-                movie.setImgUrl(resultSet.getString("imgUrl"));
-                movie.setLengthInMinutes(resultSet.getInt("lengthInMinutes"));
-                movie.setRating(resultSet.getDouble("rating"));
-
-                movies.add(movie);
-            }
+        try {
+            return dao.queryForAll();
         } catch (SQLException e){
             e.printStackTrace();
             throw new SQLException("Fehler beim Abrufen der Filme", e);
         }
-        return movies;
     }
 
     public void removeAllMovies() throws SQLException {
-        String deleteQuery = "DELETE FROM MovieEntity";
-        try (PreparedStatement statement = connection.prepareStatement(deleteQuery)) {
-             int affectedRows = statement.executeUpdate();
-            System.out.println(affectedRows + "Filme wurden gelöscht");
+        try {
+            int deletedCounter = dao.deleteBuilder().delete();
+            System.out.println(deletedCounter + " Filme wurden gelöscht");
         } catch (SQLException e) {
             e.printStackTrace();
             throw new SQLException("Fehler beim löschen aller Filme", e);
@@ -98,7 +83,4 @@ public class MovieRepository {
         }
     }
      */
-
-    Dao<MovieEntity, Long> dao;
-
 }

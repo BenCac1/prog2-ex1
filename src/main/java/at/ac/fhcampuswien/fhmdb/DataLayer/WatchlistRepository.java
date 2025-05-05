@@ -1,104 +1,48 @@
 package at.ac.fhcampuswien.fhmdb.DataLayer;
 
+import com.j256.ormlite.dao.Dao;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class WatchlistRepository {
-    private static Connection connection;
+    private static Dao<WatchlistMovieEntity, Long> dao;
 
-    public WatchlistRepository(Connection connection) {
-        this.connection = connection;
+    public WatchlistRepository(Dao<WatchlistMovieEntity, Long> dao) {
+        WatchlistRepository.dao = dao;
     }
 
     public static List<WatchlistMovieEntity> getAllWatchlists() throws SQLException {
-        List<WatchlistMovieEntity> watchlists = new ArrayList<>();
-        String query = "SELECT * FROM WatchlistMovieEntity";
-
-        try (Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(query)) {
-            while (resultSet.next()) {
-                WatchlistMovieEntity watchlist = new WatchlistMovieEntity();
-
-                watchlist.setId(resultSet.getInt("id"));
-                watchlist.setApiId(resultSet.getString("apiId"));
-
-                watchlists.add(watchlist);
-            }
+        try {
+            return dao.queryForAll();
         } catch (SQLException e){
             e.printStackTrace();
             throw new SQLException("Fehler beim Abrufen der Filme", e);
         }
-        return watchlists;
     }
 
-    public void deleteWatchlists(List<Integer> ids) throws SQLException{
-        if (ids == null || ids.isEmpty()) {
-            throw new SQLException("Keine Filme zum Löschen übergeben");
-        }
+    public int addToWatchlist(WatchlistMovieEntity movie) throws SQLException{
 
-        StringBuilder queryBuilder = new StringBuilder("DELETE FROM WatchlistMovieEntity WHERE id IN (");
-        for (int i = 0; i < ids.size(); i++) {
-            queryBuilder.append("?");
-            if (i < ids.size() - 1) {
-                queryBuilder.append(",");
-            }
-        }
-        queryBuilder.append(");");
-
-        String query = queryBuilder.toString();
-
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            for (int i = 0; i < ids.size(); i++) {
-                statement.setLong(i + 1, ids.get(i));
-            }
-
-            int affectedRows = statement.executeUpdate();
-            System.out.println(affectedRows + "Watchlisten wurden erfolgreich gelöscht.");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new SQLException("Fehler beim Löschen der Watchlisten", e);
-        }
-    }
-
-    public void deleteWatchlist(int id) throws SQLException {
-        try (PreparedStatement statement = connection.prepareStatement("DELETE FROM WatchlistMovieEntity WHERE id = ?")) {
-            statement.setInt(1, id);
-            int affectedRow = statement.executeUpdate();
-
-            if (affectedRow > 0) {
-                System.out.println("Die Watchliste wurde erfolgreich gelöscht.");
+        try {
+            long counter = dao.queryBuilder().where().eq("apiId", movie.getApiId()).countOf();
+            if (counter == 0){
+                return dao.create(movie);
             } else {
-                System.out.println("Keine Watchliste mit der ID" + id + "gefunden.");
+                return 0;
             }
-        } catch (SQLException e) {
+        } catch (SQLException e){
             e.printStackTrace();
-            throw new SQLException("Fehler beim Löschen der Watchliste mit ID " + id, e);
+            throw new SQLException("Fehler beim hinzufügen des Filmes", e);
         }
     }
 
-    public void addToWatchlist(Long movieID) throws SQLException{
-
-
-        String checkQuery = "SELECT COUNT(*) FROM WatchlistMovieEntity WHERE id = ?";
-
-        try (PreparedStatement checkStmt = connection.prepareStatement(checkQuery)) {
-            checkStmt.setLong(1, movieID);
-            try (ResultSet rs = checkStmt.executeQuery()) {
-                if (rs.next() && rs.getInt(1) > 0) {
-                    System.out.println("Film ist bereits in der Watchliste.");
-                    return;
-                }
-            }
-        }
-
-        String insertQuery = "INSERT INTO WatchlistMovieEntity VALUES (?)";
-
-        try (PreparedStatement insertStmt = connection.prepareStatement(insertQuery)){
-            insertStmt.setLong(1, movieID);
-            insertStmt.executeUpdate();
-            System.out.println("Film wurde zur Watchlist hinzugefügt.");
+    public int removeFromWatchlist(String apiId) throws SQLException{
+        try {
+            return dao.delete(dao.queryBuilder().where().eq("apiId", apiId).query());
+        } catch (SQLException e){
+            e.printStackTrace();
+            throw new SQLException("Fehler beim entfernen des Filmes", e);
         }
     }
-
 }

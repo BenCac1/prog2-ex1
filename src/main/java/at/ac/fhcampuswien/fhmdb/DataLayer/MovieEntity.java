@@ -1,18 +1,22 @@
 package at.ac.fhcampuswien.fhmdb.DataLayer;
 
 import at.ac.fhcampuswien.fhmdb.models.Genres;
+import at.ac.fhcampuswien.fhmdb.models.Movie;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @DatabaseTable(tableName = "MovieEntity")
 public class MovieEntity {
-    @DatabaseField(id = true)
+    @DatabaseField(generatedId = true)
     private long id;
-    @DatabaseField
+    @DatabaseField(canBeNull = false)
     private String apiId;
-    @DatabaseField
+    @DatabaseField(canBeNull = false)
     private String title;
     @DatabaseField
     private String description;
@@ -27,11 +31,22 @@ public class MovieEntity {
     @DatabaseField
     private double rating;
 
-    public String genresToString(List<Genres> genres) {
+    public MovieEntity() {}
 
+    public MovieEntity(String apiId, String title, String description, String genres, int releaseYear, String imgUrl, int lengthInMinutes, double rating) {
+        this.apiId = apiId;
+        this.title = title;
+        this.description = description;
+        this.genres = genres;
+        this.releaseYear = releaseYear;
+        this.imgUrl = imgUrl;
+        this.lengthInMinutes = lengthInMinutes;
+        this.rating = rating;
+    }
+    public String genresToString(List<Genres> genres) {
         StringBuilder genresString = new StringBuilder();
         for (Genres genre : genres) {
-            genresString.append(genre.toString()).append(",");
+            genresString.append(genre.name()).append(",");
         }
         if (genresString.length() > 0) {
             genresString.deleteCharAt(genresString.length() - 1);
@@ -39,11 +54,55 @@ public class MovieEntity {
         return genresString.toString();
     }
 
+    public List<String> convertGenresToList(String genresString) {
+        return Arrays.asList(genresString.split(","));
+    }
+
+    public static List<MovieEntity> fromMovies(List<Movie> movies) {
+        List<MovieEntity> movieEntities = new ArrayList<>();
+        for (Movie movie : movies) {
+            movieEntities.add(
+                    new MovieEntity(
+                            movie.getId(),
+                            movie.getTitle(),
+                            movie.getDescription(),
+                            movie.getGenres().toString(),
+                            movie.getReleaseYear(),
+                            movie.getImgUrl(),
+                            movie.getLengthInMinutes(),
+                            movie.getRating()));
+        }
+        return movieEntities;
+    }
+
+    public static List<Movie> toMovies(List<MovieEntity> movieEntities) {
+        List<Movie> movies = new ArrayList<>();
+        for (MovieEntity movieEntity : movieEntities) {
+            List<Genres> genreList = Arrays.stream(movieEntity.getGenres().split(","))
+                    .map(String::trim)
+                    .map(String::toUpperCase)
+                    .map(Genres::valueOf)
+                    .collect(Collectors.toList());
+
+            movies.add(
+                    new Movie(
+                            movieEntity.getApiId(),
+                            movieEntity.getTitle(),
+                            genreList,
+                            movieEntity.getReleaseYear(),
+                            movieEntity.getDescription(),
+                            movieEntity.getImgUrl(),
+                            movieEntity.getLengthInMinutes(),
+                            null,
+                            null,
+                            null,
+                            movieEntity.getRating()));
+        }
+        return movies;
+    }
+
     public long getId() {
         return id;
-    }
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getApiId() {

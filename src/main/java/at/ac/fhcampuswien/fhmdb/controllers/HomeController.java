@@ -1,5 +1,8 @@
 package at.ac.fhcampuswien.fhmdb.controllers;
 
+import at.ac.fhcampuswien.fhmdb.DataLayer.MovieRepository;
+import at.ac.fhcampuswien.fhmdb.DataLayer.WatchlistMovieEntity;
+import at.ac.fhcampuswien.fhmdb.DataLayer.WatchlistRepository;
 import at.ac.fhcampuswien.fhmdb.FhmdbApplication;
 import at.ac.fhcampuswien.fhmdb.api.MovieAPI;
 import at.ac.fhcampuswien.fhmdb.models.Genres;
@@ -25,6 +28,8 @@ import java.net.URL;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import at.ac.fhcampuswien.fhmdb.ClickEventHandler;
 
 public class HomeController implements Initializable {
     @FXML
@@ -68,12 +73,26 @@ public class HomeController implements Initializable {
 
 
 
+
+    private final ClickEventHandler onAddToWatchlistClicked = (clickedItem) ->
+    {
+        if (clickedItem instanceof Movie movie){
+            WatchlistMovieEntity watchlistMovie = new WatchlistMovieEntity();
+            watchlistMovie.setApiId(movie.getId());
+
+            WatchlistRepository repo = new WatchlistRepository();
+            repo.addToWatchlist(watchlistMovie);
+            System.out.println(repo.getWatchlist().toString());
+        }
+    };
+
     public void changeCenterContent(String path) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(path));
         try {
             mainPane.setCenter(fxmlLoader.load());
         } catch (IOException e) {
-            System.out.println("Error while loading");
+            e.printStackTrace();
+            System.out.println("Error while loading" + e.getMessage());
         }
     }
 
@@ -102,11 +121,14 @@ public class HomeController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        observableMovies.addAll(allMovies);         // add dummy data to observable list
+        MovieRepository movieRepo = new MovieRepository();
+        movieRepo.removeAllMovies();
+        movieRepo.addAllMovies(allMovies);      // add movies to the local database
+        observableMovies.addAll(allMovies);     // add movies to the view
 
         // initialize UI stuff
         movieListView.setItems(observableMovies);   // set data of observable list to list view
-        movieListView.setCellFactory(movieListView -> new MovieCell()); // use custom cell factory to display data
+        movieListView.setCellFactory(movieListView -> new MovieCell(onAddToWatchlistClicked)); // use custom cell factory to display data
 
         // Add the genres to the dropdown
         genreComboBox.setPromptText("Filter by Genre");
@@ -137,7 +159,7 @@ public class HomeController implements Initializable {
             //Reset ListView
             movieListView.setItems(observableMovies);
             movieListView.setCellFactory(null);
-            movieListView.setCellFactory(movieListView -> new MovieCell());
+            movieListView.setCellFactory(movieListView -> new MovieCell(onAddToWatchlistClicked));
         });
 
         // Action for when sort button is pressed

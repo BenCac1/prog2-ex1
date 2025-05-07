@@ -76,13 +76,10 @@ public class MovieEntity {
     }
 
     public static List<Movie> toMovies(List<MovieEntity> movieEntities) {
+
         List<Movie> movies = new ArrayList<>();
         for (MovieEntity movieEntity : movieEntities) {
-            List<Genres> genreList = Arrays.stream(movieEntity.getGenres().split(","))
-                    .map(String::trim)
-                    .map(String::toUpperCase)
-                    .map(Genres::valueOf)
-                    .collect(Collectors.toList());
+            List<Genres> genreList = Arrays.stream(movieEntity.getGenres().replaceAll("\\[|\\]| ", "").split(",")).map(Genres::valueOf).toList();
 
             movies.add(
                     new Movie(
@@ -97,7 +94,9 @@ public class MovieEntity {
                             null,
                             null,
                             movieEntity.getRating()));
+
         }
+
         return movies;
     }
 

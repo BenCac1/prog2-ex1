@@ -6,10 +6,36 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="at.ac.fhcampuswien.fhmdb.controllers.WatchlistController"
-            prefHeight="400.0" prefWidth="600.0">
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
 
-    <Label text="Watchlist"></Label>
-</AnchorPane>
+
+<BorderPane fx:id="mainPane" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.ac.fhcampuswien.fhmdb.controllers.WatchlistController">
+<center>
+    <VBox fx:id="HomeVbox" prefHeight="331.0" prefWidth="570.0">
+        <HBox spacing="5.0" styleClass="background-black" stylesheets="@at/ac/fhcampuswien/fhmdb/styles.css">
+            <children>
+                <JFXButton fx:id="sortBtn" styleClass="background-yellow" stylesheets="@at/ac/fhcampuswien/fhmdb/styles.css" text="Sort (asc)" />
+                <TextField fx:id="searchField" prefHeight="25.0" prefWidth="170.0" promptText="Search FHMDb" />
+                <JFXComboBox fx:id="genreComboBox" focusColor="#f5c518" styleClass="filter-combo-box" stylesheets="@at/ac/fhcampuswien/fhmdb/styles.css" />
+                <JFXComboBox fx:id="ratingComboBox" focusColor="#f5c518" promptText="Filter by Rating" styleClass="filter-combo-box" stylesheets="@at/ac/fhcampuswien/fhmdb/styles.css" />
+                <JFXComboBox fx:id="releaseYearComboBox" focusColor="#f5c518" promptText="Filter by Release Year" styleClass="filter-combo-box" stylesheets="@at/ac/fhcampuswien/fhmdb/styles.css" />
+                <JFXButton fx:id="searchBtn" styleClass="background-yellow" stylesheets="@at/ac/fhcampuswien/fhmdb/styles.css" text="Filter" />
+                <JFXButton fx:id="resetFilter" styleClass="background-yellow" stylesheets="@at/ac/fhcampuswien/fhmdb/styles.css" text="Reset Filter" />
+            </children>
+            <VBox.margin>
+                <Insets />
+            </VBox.margin>
+            <padding>
+                <Insets bottom="20.0" left="10.0" top="20.0" />
+            </padding>
+        </HBox>
+        <JFXListView fx:id="watchListView" style="-fx-background-color: black;" styleClass="background-black" stylesheets="@at/ac/fhcampuswien/fhmdb/styles.css" VBox.vgrow="ALWAYS" />
+    </VBox>
+</center>
+
+
+</BorderPane>

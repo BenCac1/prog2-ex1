@@ -27,4 +27,11 @@ public class WatchlistMovieEntity {
         this.apiId = apiId;
     }
 
+    @Override
+    public String toString() {
+        return "WatchlistMovieEntity{" +
+                "id=" + id +
+                ", apiId='" + apiId + '\'' +
+                '}';
+    }
 }

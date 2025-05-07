@@ -1,6 +1,8 @@
 package at.ac.fhcampuswien.fhmdb.DataLayer;
 
+import at.ac.fhcampuswien.fhmdb.FhmdbApplication;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.DaoManager;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,17 +14,21 @@ public class WatchlistRepository {
     public WatchlistRepository(Dao<WatchlistMovieEntity, Long> dao) {
         WatchlistRepository.dao = dao;
     }
+    public WatchlistRepository() {
+        dao = FhmdbApplication.dbManager.getWatchlistDao();
+    }
 
-    public static List<WatchlistMovieEntity> getAllWatchlists() throws SQLException {
+    public List<WatchlistMovieEntity> getWatchlist() {
         try {
             return dao.queryForAll();
         } catch (SQLException e){
             e.printStackTrace();
-            throw new SQLException("Fehler beim Abrufen der Filme", e);
+            System.out.println("Fehler beim Abrufen der Filme" + e.getMessage());
         }
+        return null;
     }
 
-    public int addToWatchlist(WatchlistMovieEntity movie) throws SQLException{
+    public int addToWatchlist(WatchlistMovieEntity movie){
 
         try {
             long counter = dao.queryBuilder().where().eq("apiId", movie.getApiId()).countOf();
@@ -33,16 +39,18 @@ public class WatchlistRepository {
             }
         } catch (SQLException e){
             e.printStackTrace();
-            throw new SQLException("Fehler beim hinzufügen des Filmes", e);
+            System.out.println("Fehler beim hinzufügen des Filmes " + e.getMessage());
+            return 1;
         }
     }
 
-    public int removeFromWatchlist(String apiId) throws SQLException{
+    public int removeFromWatchlist(String apiId){
         try {
             return dao.delete(dao.queryBuilder().where().eq("apiId", apiId).query());
         } catch (SQLException e){
             e.printStackTrace();
-            throw new SQLException("Fehler beim entfernen des Filmes", e);
+            System.out.println("Fehler beim entfernen des Filmes: " + e);
         }
+        return -1;
     }
 }

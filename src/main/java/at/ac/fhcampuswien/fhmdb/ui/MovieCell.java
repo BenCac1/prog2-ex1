@@ -1,5 +1,6 @@
 package at.ac.fhcampuswien.fhmdb.ui;
 
+import at.ac.fhcampuswien.fhmdb.ClickEventHandler;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 import com.jfoenix.controls.JFXButton;
 import javafx.geometry.Insets;
@@ -17,6 +18,14 @@ public class MovieCell extends ListCell<Movie> {
     private final JFXButton watchlistBtn = new JFXButton("To Watchlist");
     private final VBox layout = new VBox(title, detail, genres, watchlistBtn);
 
+
+    public MovieCell(ClickEventHandler<Movie> addToWatchlistClicked) {
+        super();
+        watchlistBtn.setOnMouseClicked(mouseEvent -> {
+            addToWatchlistClicked.onClick(getItem());
+        });
+
+    }
     @Override
     protected void updateItem(Movie movie, boolean empty) {
         super.updateItem(movie, empty);

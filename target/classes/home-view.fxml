@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="mainPane" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.ac.fhcampuswien.fhmdb.controllers.HomeController">
+   <center>
+      <VBox fx:id="HomeVbox" prefHeight="331.0" prefWidth="570.0">
+         <HBox spacing="5.0" styleClass="background-black" stylesheets="@at/ac/fhcampuswien/fhmdb/styles.css">
+            <children>
+               <JFXButton fx:id="sortBtn" styleClass="background-yellow" stylesheets="@at/ac/fhcampuswien/fhmdb/styles.css" text="Sort (asc)" />
+               <TextField fx:id="searchField" prefHeight="25.0" prefWidth="170.0" promptText="Search FHMDb" />
+               <JFXComboBox fx:id="genreComboBox" focusColor="#f5c518" styleClass="filter-combo-box" stylesheets="@at/ac/fhcampuswien/fhmdb/styles.css" />
+               <JFXComboBox fx:id="ratingComboBox" focusColor="#f5c518" promptText="Filter by Rating" styleClass="filter-combo-box" stylesheets="@at/ac/fhcampuswien/fhmdb/styles.css" />
+               <JFXComboBox fx:id="releaseYearComboBox" focusColor="#f5c518" promptText="Filter by Release Year" styleClass="filter-combo-box" stylesheets="@at/ac/fhcampuswien/fhmdb/styles.css" />
+               <JFXButton fx:id="searchBtn" styleClass="background-yellow" stylesheets="@at/ac/fhcampuswien/fhmdb/styles.css" text="Filter" />
+               <JFXButton fx:id="resetFilter" styleClass="background-yellow" stylesheets="@at/ac/fhcampuswien/fhmdb/styles.css" text="Reset Filter" />
+            </children>
+            <VBox.margin>
+               <Insets />
+            </VBox.margin>
+            <padding>
+               <Insets bottom="20.0" left="10.0" top="20.0" />
+            </padding>
+         </HBox>
+         <JFXListView fx:id="movieListView" style="-fx-background-color: black;" styleClass="background-black" stylesheets="@at/ac/fhcampuswien/fhmdb/styles.css" VBox.vgrow="ALWAYS" />
+      </VBox>
+   </center>
+   <top>
+      <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="347.0" spacing="20.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
+         <padding>
+            <Insets bottom="7.0" left="10.0" top="7.0" />
+         </padding>
+         <children>
+            <Label style="-fx-background-color: F5C518;" text="FHMDb">
+               <font>
+                  <Font name="Calibri Bold" size="24.0" />
+               </font>
+               <padding>
+                  <Insets left="2.0" right="2.0" />
+               </padding>
+            </Label>
+            <Label styleClass="text-white" stylesheets="@at/ac/fhcampuswien/fhmdb/styles.css" text="Welcome to FHMDb!" />
+         </children>
+      </HBox>
+   </top>
+   <left>
+      <AnchorPane prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Button fx:id="homebtn" mnemonicParsing="false" onAction="#loadHomeView" prefWidth="65.0" styleClass="background-yellow" stylesheets="@at/ac/fhcampuswien/fhmdb/styles.css" text="Home">
+                     <VBox.margin>
+                        <Insets left="17.0" right="10.0" top="20.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="watchbtn" mnemonicParsing="false" onAction="#loadWatchlistView" prefWidth="65.0" styleClass="background-yellow" stylesheets="@at/ac/fhcampuswien/fhmdb/styles.css" text="Watchlist">
+                     <VBox.margin>
+                        <Insets left="17.0" top="10.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="aboutbtn" mnemonicParsing="false" onAction="#loadAboutView" prefWidth="65.0" styleClass="background-yellow" stylesheets="@at/ac/fhcampuswien/fhmdb/styles.css" text="About">
+                     <VBox.margin>
+                        <Insets left="17.0" top="10.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+   </left>
+</BorderPane>

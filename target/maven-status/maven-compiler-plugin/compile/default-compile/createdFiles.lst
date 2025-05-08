@@ -1,0 +1,16 @@
+at\ac\fhcampuswien\fhmdb\ui\MovieCell.class
+at\ac\fhcampuswien\fhmdb\controllers\WatchlistController.class
+at\ac\fhcampuswien\fhmdb\DataLayer\DatabaseManager.class
+at\ac\fhcampuswien\fhmdb\DataLayer\WatchlistRepository.class
+at\ac\fhcampuswien\fhmdb\controllers\HomeController.class
+at\ac\fhcampuswien\fhmdb\DataLayer\MovieEntity.class
+at\ac\fhcampuswien\fhmdb\DataLayer\WatchlistMovieEntity.class
+at\ac\fhcampuswien\fhmdb\models\Movie.class
+at\ac\fhcampuswien\fhmdb\FhmdbApplication.class
+at\ac\fhcampuswien\fhmdb\models\Genres.class
+at\ac\fhcampuswien\fhmdb\ui\WatchlistCell.class
+module-info.class
+at\ac\fhcampuswien\fhmdb\api\MovieAPI.class
+at\ac\fhcampuswien\fhmdb\ClickEventHandler.class
+at\ac\fhcampuswien\fhmdb\DataLayer\MovieRepository.class
+at\ac\fhcampuswien\fhmdb\controllers\AboutController.class

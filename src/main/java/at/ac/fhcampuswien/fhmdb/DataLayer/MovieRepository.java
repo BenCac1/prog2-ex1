@@ -1,10 +1,12 @@
 package at.ac.fhcampuswien.fhmdb.DataLayer;
 
 import at.ac.fhcampuswien.fhmdb.FhmdbApplication;
+import at.ac.fhcampuswien.fhmdb.exceptions.DatabaseException;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 import com.j256.ormlite.dao.Dao;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,51 +18,41 @@ public class MovieRepository {
         MovieRepository.dao = dao;
         MovieRepository.connection = connection;
     }
-    public MovieRepository(){
+
+    public MovieRepository() {
         this.dao = FhmdbApplication.dbManager.getMovieDao();
     }
 
-    public List<MovieEntity> getAllMovies() {
-        List<MovieEntity> movies = new ArrayList<>();
-
+    public List<MovieEntity> getAllMovies() throws DatabaseException {
         try {
             return dao.queryForAll();
         } catch (SQLException e){
-            e.printStackTrace();
-            System.out.println("Fehler beim Abrufen der Filme: " + e);
+            throw new DatabaseException("Fehler beim Abrufen der Filme", e);
         }
-        return null;
     }
 
-    public int removeAllMovies() {
+    public int removeAllMovies() throws DatabaseException {
         try {
             return dao.deleteBuilder().delete();
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Fehler beim löschen aller Filme: " + e);
+            throw new DatabaseException("Fehler beim Löschen aller Filme", e);
         }
-        return -1;
     }
 
-    public MovieEntity getMovie(String apiId) {
+    public MovieEntity getMovie(String apiId) throws DatabaseException {
         try {
             return dao.queryBuilder().where().eq("apiId", apiId).queryForFirst();
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Fehler beim laden des Filmes: " + e);
+            throw new DatabaseException("Fehler beim Laden des Filmes", e);
         }
-        return null;
     }
 
-    public int addAllMovies(List<Movie> movies) {
+    public int addAllMovies(List<Movie> movies) throws DatabaseException {
         try {
             List<MovieEntity> movieEntities = MovieEntity.fromMovies(movies);
             return dao.create(movieEntities);
         } catch (Exception e){
-            e.printStackTrace();
-            System.out.println("Fehler beim Laden der Filmes: " + e);
+            throw new DatabaseException("Fehler beim Laden der Filme", e);
         }
-        return -1;
     }
-
 }

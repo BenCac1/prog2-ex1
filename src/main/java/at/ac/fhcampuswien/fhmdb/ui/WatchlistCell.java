@@ -1,6 +1,7 @@
 package at.ac.fhcampuswien.fhmdb.ui;
 
 import at.ac.fhcampuswien.fhmdb.ClickEventHandler;
+import at.ac.fhcampuswien.fhmdb.exceptions.DatabaseException;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 import com.jfoenix.controls.JFXButton;
 import javafx.geometry.Insets;
@@ -22,7 +23,11 @@ public class WatchlistCell extends ListCell<Movie> {
     public WatchlistCell(ClickEventHandler<Movie> removeClicked) {
         super();
         removeBtn.setOnMouseClicked(mouseEvent -> {
-            removeClicked.onClick(getItem());
+            try {
+                removeClicked.onClick(getItem());
+            } catch (DatabaseException e) {
+                throw new RuntimeException(e);
+            }
         });
 
     }

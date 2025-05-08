@@ -7,10 +7,12 @@ import okhttp3.*;
 import java.net.URL;
 import java.util.Collections;
 import java.util.List;
+import at.ac.fhcampuswien.fhmdb.exceptions.MovieApiException;
+
 
 public class MovieAPI {
     private static final String URL_STRING = "http://prog2.fh-campuswien.ac.at/movies";
-
+    //Test if API Error works
     public static URL buildURL(String query, Genres genre, String releaseYear, String ratingFrom) {
         URL url = null;
         StringBuilder urlBuild = new StringBuilder(URL_STRING);
@@ -39,34 +41,34 @@ public class MovieAPI {
         return url;
     }
 
-    public static List<Movie> getMovies(String query, Genres genre, String releaseYear, String ratingFrom) {
-        //Creates a new instance (configurable HTTP-Request)
-        // Using Builder to build the URL as needed
-        // Setting the expected User-Agent/HTTP-Client for a successful request
+    public static List<Movie> getMovies(String query, Genres genre, String releaseYear, String ratingFrom) throws MovieApiException {
         Request req = new Request.Builder()
                 .url(buildURL(query, genre, releaseYear, ratingFrom))
                 .removeHeader("User-Agent")
                 .addHeader("User-Agent", "http.agent")
                 .build();
 
-        OkHttpClient client = new OkHttpClient();   //Creates a new instance (Client manages network requests such as Get, Post, Put and Delete)
-        Call call = client.newCall(req);            //creates a Call-Object which represents an HTTP-request ; "req" being the specific request(URL)
-        ObjectMapper mapper = new ObjectMapper();   //Converts JSON file to into a Java object (could also be used to do the opposite)
+        OkHttpClient client = new OkHttpClient();
+        Call call = client.newCall(req);
+        ObjectMapper mapper = new ObjectMapper();
 
-        //sensing a synchron request (meanwhile blocking the thread)
         try (Response response = call.execute()) {
-            ResponseBody responseBody = response.body();    //saves the response (JSON file)
-            return List.of(mapper.readValue(responseBody.byteStream(), Movie[].class));     //converts the String in responseBody into a Movie-Object with the help of ObjectMapper
-            // Using .byteStream instead of .string to not overload responseBody in the case of big JSON files
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            if (!response.isSuccessful()) {
+                throw new MovieApiException("Unsuccessful API call: " + response.code() + " " + response.message());
+            }
 
-        //better than returning null. Helps to avoid NullPointerException in other parts of the code
-        return Collections.emptyList();
+            ResponseBody responseBody = response.body();
+            if (responseBody == null) {
+                throw new MovieApiException("Antwort der API war leer.");
+            }
+
+            return List.of(mapper.readValue(responseBody.byteStream(), Movie[].class));
+        } catch (Exception e) {
+            throw new MovieApiException("Fehler beim Abrufen der Filme von der API", e);
+        }
     }
 
-    public static List<Movie> getAllMovies() {
+    public static List<Movie> getAllMovies() throws MovieApiException {
         return getMovies(null, null, null, null);
     }
 }

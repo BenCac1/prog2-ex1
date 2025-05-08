@@ -6,6 +6,8 @@ import at.ac.fhcampuswien.fhmdb.DataLayer.MovieRepository;
 import at.ac.fhcampuswien.fhmdb.DataLayer.WatchlistMovieEntity;
 import at.ac.fhcampuswien.fhmdb.DataLayer.WatchlistRepository;
 import at.ac.fhcampuswien.fhmdb.api.MovieAPI;
+import at.ac.fhcampuswien.fhmdb.exceptions.DatabaseException;
+import at.ac.fhcampuswien.fhmdb.exceptions.MovieApiException;
 import at.ac.fhcampuswien.fhmdb.models.Genres;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 import at.ac.fhcampuswien.fhmdb.ui.MovieCell;
@@ -112,14 +114,23 @@ public class WatchlistController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println("init");
         WatchlistRepository watchlistRepo = new WatchlistRepository();
-        List<WatchlistMovieEntity> savedMovies = watchlistRepo.getWatchlist();
+        List<WatchlistMovieEntity> savedMovies = null;
+        try {
+            savedMovies = watchlistRepo.getWatchlist();
+        } catch (DatabaseException e) {
+            throw new RuntimeException(e);
+        }
 
         MovieRepository movieRepo = new MovieRepository();
         List<MovieEntity> watchlistMovies = new ArrayList<>();
 
         for (WatchlistMovieEntity watchlistMovieEntity : savedMovies){
 
-            watchlistMovies.add(movieRepo.getMovie(watchlistMovieEntity.getApiId()));
+            try {
+                watchlistMovies.add(movieRepo.getMovie(watchlistMovieEntity.getApiId()));
+            } catch (DatabaseException e) {
+                throw new RuntimeException(e);
+            }
             /*for (MovieEntity movieEntity : allMovies){
                 System.out.println(movieEntity.getId() + " " + watchlistMovieEntity.getId());
                 if(movieEntity.getId() == watchlistMovieEntity.getId()){
@@ -154,12 +165,17 @@ public class WatchlistController implements Initializable {
 
         // Action for when filter button is pressed
         searchBtn.setOnAction(event -> {
-            List<Movie> filteredMovies = filterMovies(
-                    (Genres) genreComboBox.getValue(),
-                    searchField.getText(),
-                    (String) releaseYearComboBox.getValue(),
-                    (String) ratingComboBox.getValue()
-            );
+            List<Movie> filteredMovies = null;
+            try {
+                filteredMovies = filterMovies(
+                        (Genres) genreComboBox.getValue(),
+                        searchField.getText(),
+                        (String) releaseYearComboBox.getValue(),
+                        (String) ratingComboBox.getValue()
+                );
+            } catch (MovieApiException e) {
+                throw new RuntimeException(e);
+            }
             observableMovies.setAll(filteredMovies);
 
             //Reset ListView
@@ -201,7 +217,7 @@ public class WatchlistController implements Initializable {
     }
 
     // Logic for what happens when filter button is pressed
-    public List<Movie> filterMovies (Genres genre, String text, String releaseYear, String ratingFrom) {
+    public List<Movie> filterMovies (Genres genre, String text, String releaseYear, String ratingFrom) throws MovieApiException {
         return MovieAPI.getMovies(text, genre, releaseYear, ratingFrom);
     }
 

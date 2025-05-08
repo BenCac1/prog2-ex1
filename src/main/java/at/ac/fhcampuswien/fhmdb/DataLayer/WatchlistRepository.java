@@ -1,11 +1,10 @@
 package at.ac.fhcampuswien.fhmdb.DataLayer;
 
 import at.ac.fhcampuswien.fhmdb.FhmdbApplication;
+import at.ac.fhcampuswien.fhmdb.exceptions.DatabaseException;
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.dao.DaoManager;
 
-import java.sql.*;
-import java.util.ArrayList;
+import java.sql.SQLException;
 import java.util.List;
 
 public class WatchlistRepository {
@@ -14,22 +13,20 @@ public class WatchlistRepository {
     public WatchlistRepository(Dao<WatchlistMovieEntity, Long> dao) {
         WatchlistRepository.dao = dao;
     }
+
     public WatchlistRepository() {
         dao = FhmdbApplication.dbManager.getWatchlistDao();
     }
 
-    public List<WatchlistMovieEntity> getWatchlist() {
+    public List<WatchlistMovieEntity> getWatchlist() throws DatabaseException {
         try {
             return dao.queryForAll();
         } catch (SQLException e){
-            e.printStackTrace();
-            System.out.println("Fehler beim Abrufen der Filme" + e.getMessage());
+            throw new DatabaseException("Fehler beim Abrufen der Filme", e);
         }
-        return null;
     }
 
-    public int addToWatchlist(WatchlistMovieEntity movie){
-
+    public int addToWatchlist(WatchlistMovieEntity movie) throws DatabaseException {
         try {
             long counter = dao.queryBuilder().where().eq("apiId", movie.getApiId()).countOf();
             if (counter == 0){
@@ -38,19 +35,15 @@ public class WatchlistRepository {
                 return 0;
             }
         } catch (SQLException e){
-            e.printStackTrace();
-            System.out.println("Fehler beim hinzufügen des Filmes " + e.getMessage());
-            return 1;
+            throw new DatabaseException("Fehler beim Hinzufügen zur Watchlist", e);
         }
     }
 
-    public int removeFromWatchlist(String apiId){
+    public int removeFromWatchlist(String apiId) throws DatabaseException {
         try {
             return dao.delete(dao.queryBuilder().where().eq("apiId", apiId).query());
         } catch (SQLException e){
-            e.printStackTrace();
-            System.out.println("Fehler beim entfernen des Filmes: " + e);
+            throw new DatabaseException("Fehler beim Entfernen des Films aus der Watchlist", e);
         }
-        return -1;
     }
 }
